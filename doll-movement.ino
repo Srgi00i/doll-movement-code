@@ -11,6 +11,10 @@
 #define BUTTON_A_PIN 11
 #define BUTTON_B_PIN 12
 
+#define STEPPER_SPEED 200 // Velocidad maxima del stepper
+#define STEPPER_ACCEL 100 // Aceleración del stepper
+#define STEPPER_ENABLE LOW // Tipo de enable (alto/bajo)
+
 enum State
 {
   INIT,   // 0 by default
@@ -58,7 +62,7 @@ void setup()
   pinMode(BUTTON_B_PIN, INPUT);
 
   // Initialize stepper motor parameters
-  digitalWrite(EN_PIN, LOW);
+  digitalWrite(EN_PIN, STEPPER_ACCEL);
   //stepper.setMaxSpeed(200);     // Set max speed
   //stepper.setAcceleration(100); // Set acceleration
 
@@ -86,8 +90,7 @@ bool checkHoming()
 
 void homing()
 {
-  digitalWrite(EN_PIN, LOW);
-  
+  digitalWrite(EN_PIN, STEPPER_ENABLE);
   stepper.setMaxSpeed(400);     // Set max speed
   stepper.setAcceleration(200); // Set acceleration
 
@@ -137,9 +140,9 @@ void buttonFunctionA()
 {
   Serial.println("Executing function A...");
 
-  digitalWrite(EN_PIN, LOW);
-  stepper.setMaxSpeed(200);     // Set max speed
-  stepper.setAcceleration(100); // Set acceleration
+  digitalWrite(EN_PIN, STEPPER_ENABLE);
+  stepper.setMaxSpeed(STEPPER_SPEED);     // Set max speed
+  stepper.setAcceleration(STEPPER_ACCEL); // Set acceleration
 
   if (mode == AUTO)
   {
@@ -161,9 +164,9 @@ void buttonFunctionB()
 {
   Serial.println("Executing function B...");
 
-  digitalWrite(EN_PIN, LOW);
-  stepper.setMaxSpeed(200);     // Set max speed
-  stepper.setAcceleration(100); // Set acceleration
+  digitalWrite(EN_PIN, STEPPER_ENABLE);
+  stepper.setMaxSpeed(STEPPER_SPEED);     // Set max speed
+  stepper.setAcceleration(STEPPER_ACCEL); // Set acceleration
 
   if (mode == MANUAL)
   {
@@ -181,9 +184,11 @@ void autoFunction()
 {
   Serial.println("Executing auto function...");
 
-  //digitalWrite(EN_PIN, HIGH);
-  //stepper.setMaxSpeed(200);     // Set max speed
-  //stepper.setAcceleration(100); // Set acceleration
+  Serial.println("Executing function A...");
+
+  digitalWrite(EN_PIN, STEPPER_ENABLE);
+  stepper.setMaxSpeed(STEPPER_SPEED);     // Set max speed
+  stepper.setAcceleration(STEPPER_ACCEL); // Set acceleration
 
   if (headDir == FRONT)
   {
